@@ -1,0 +1,16 @@
+.*
+!.gitignore
+
+# Windows
+Thumbs.db
+
+# Node.js
+node_modules
+*.log
+
+# MongoDB
+db/*
+!db/README.md
+
+# Bower
+static/bower
