@@ -8,7 +8,8 @@ var express = require("express"),
     colors = require("colors"),
     http = require("http"),
     path = require("path"),
-    routers = require("./routers");
+    routers = require("./routers"),
+    models = require("./models");
 
 // start server
 exports.runServer = function (mode) {
@@ -65,7 +66,7 @@ exports.runServer = function (mode) {
   });
 
   // call router
-  routers.call(app);
+  routers.call(app, models.call(app));
 
   // listen
   http.createServer(app).listen(app.get("port"), function () {
