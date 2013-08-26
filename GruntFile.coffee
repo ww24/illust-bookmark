@@ -28,7 +28,7 @@ module.exports = (grunt) ->
         files: "static/coffee/**"
         tasks: ["coffee"]
       livereload:
-        files: ["views/**", "static/css/**", "static/js/**"]
+        files: ["views/**/**", "static/css/**", "static/js/**"]
         tasks: ["livereload"]
 
   grunt.loadNpmTasks "grunt-contrib-less"

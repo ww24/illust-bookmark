@@ -29,12 +29,23 @@ exports.runServer = function (mode) {
       name: "",
       db: "illub"
     });
-    
+
     // view settings
     app.set("view engine", "html");
     app.set("layout", "layout");
     app.set("views", path.resolve(__dirname, "views"));
     app.engine("html", hogan);
+    app.set("partials", {
+      menu   : "partials/menu",
+      header : "partials/header",
+      footer : "partials/footer"
+    });
+    app.locals({
+      menu: function (title) {
+        var active = title === this.template ? "active" : "";
+        return active;
+      }
+    });
 
     app.use(express.bodyParser());
     app.use(express.cookieParser());

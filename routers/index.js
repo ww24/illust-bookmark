@@ -1,26 +1,22 @@
 /**
  * Routers
- * router/index.js
+ * routers/index.js
  */
 
-var mongoose = require("mongoose");
+var mongoose = require("mongoose"),
+    lib = require("../libs");
 
 module.exports = function (model) {
   var app = this;
 
   app.get("/", function (req, res) {
     res.locals({
-      template: "index"
+      template: "index",
+      title: ""
     });
 
     res.render(res.locals.template);
   });
 
-  app.get("/bookmark/:mark_id", function () {
-    res.locals({
-      template: "bookmark"
-    });
-
-    res.render(res.local.template);
-  });
+  lib.loader(__dirname, app);
 };
