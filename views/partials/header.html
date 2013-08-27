@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta charset="utf-8">
   <link rel="stylesheet" href="/bower/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/sticky-footer-navbar.css">
   <link rel="stylesheet" href="/css/style.css">
   <title>{{title}}Illust Bookmark</title>
 </head>
 <body>
-  <!-- Fixed navbar -->
-  <header class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      {{> menu}}
-    </div>
-  </header>
+  {{! wrap}}
+  <div class="wrap">
+    <!-- Fixed navbar -->
+    <header class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        {{> menu}}
+      </div>
+    </header>

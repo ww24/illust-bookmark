@@ -10,6 +10,7 @@ module.exports = (grunt) ->
         paths: ["static/css"]
       development:
         files:
+          "static/css/sticky-footer-navbar.css": "static/less/sticky-footer-navbar.less"
           "static/css/style.css": "static/less/style.less"
     coffee:
       development:

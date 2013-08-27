@@ -1,0 +1,39 @@
+{{> header}}
+
+  <!-- content -->
+  <div class="container">
+    <div class="row">
+      {{#bookmark}}
+      <section class="col-sm-4">
+        <a href="{{imageUrl}}" class="thumbnail">
+          <img src="{{imageUrl}}" alt="thumbsnail">
+        </a>
+      </section>
+      <section class="col-sm-8">
+        <h2>{{title}}</h2>
+        <div class="panel panel-default">
+          <div class="panel-heading">Metadata</div>
+          <div class="panel-body">
+            <dl class="dl-horizontal">
+              <dt>URL:</dt>
+              <dd>{{url}}</dd>
+
+              <dt>Bookmark:</dt>
+              <dd>42</dd>
+              
+              <dt>Size:</dt>
+              <dd>128x256</dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+      {{/bookmark}}
+    </div>
+    <div class="row">
+      <section class="col-sm-12">
+        <h3>コメント</h3>
+      </section>
+    </div>
+  </div>
+
+{{> footer}}

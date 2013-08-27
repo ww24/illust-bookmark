@@ -20,6 +20,7 @@ exports.runServer = function (mode) {
 
   // setup express
   app.configure(function () {
+    app.disable("x-powered-by");
     app.set("port", 3000);
     app.set("mongo", {
       hostname: "127.0.0.1",
@@ -42,27 +43,32 @@ exports.runServer = function (mode) {
     });
     app.locals({
       menu: function (title) {
-        var active = title === this.template ? "active" : "";
+        var active = title === this.template.split("/")[0] ? "active" : "";
         return active;
       }
     });
 
+    // static contents
+    app.use(express.static(path.resolve(__dirname, "static")));
+
+    // body parser, cookie settings
     app.use(express.bodyParser());
     app.use(express.cookieParser());
     app.use(express.cookieSession({
       secret: "imlncpx:orp9d",
       cookie: {maxAge: 1000 * 3600 * 24 * 7}
     }));
-    app.use(app.router);
-    app.use(express.static(path.resolve(__dirname, "static")));
 
     // csrf settings
     app.use(express.csrf());
     app.use(function (req, res, next) {
       // set csrf token
-      res.locals.csrf_roken = req.session._csrf;
+      res.locals.csrf_token = req.session._csrf;
       next();
     });
+
+    // resolve route
+    app.use(app.router);
   });
 
   // dev settings

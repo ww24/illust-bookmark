@@ -32,8 +32,16 @@
     </li>
   </ul>
   <ul class="nav navbar-nav navbar-right">
+    <li class="{{#menu}}add{{/menu}}">
+      <a data-toggle="modal" href="#add-bookmark-modal">
+        <span class="glyphicon glyphicon-plus"></span> Add
+      </a>
+    </li>
     <li class="{{#menu}}settings{{/menu}}">
-      <a href="/settings">Settings</a>
+      <a href="/settings">
+        <span class="glyphicon glyphicon-wrench"></span>
+        Settings
+      </a>
     </li>
   </ul>
 </div>

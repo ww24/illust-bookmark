@@ -1,4 +1,8 @@
 @charset "utf-8";
-body {
-  padding-top: 70px;
+.bookmark-thumbnail {
+  height: 208px;
+  margin: 10px 0;
+}
+.bookmark-thumbnail > img {
+  max-height: 200px !important;
 }

@@ -1,0 +1,23 @@
+{{> header}}
+
+<!-- content -->
+<div class="container">
+  <div class="page-header">
+    <h2>人気のイラストブックマーク</h2>
+    <dl class="dl-horizontal">
+      <dt>タグ:</dt>
+      <dd><code>かわいい</code> <code>ねこ</code></dd>
+    </dl>
+  </div>
+  <div class="row">
+    {{#bookmarks}}
+    <section class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+      <a href="/bookmark/{{id}}" class="thumbnail bookmark-thumbnail">
+        <img src="{{imageUrl}}" alt="bookmark">
+      </a>
+    </section>
+    {{/bookmarks}}
+  </div>
+</div>
+
+{{> footer}}

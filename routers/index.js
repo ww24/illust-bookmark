@@ -18,5 +18,5 @@ module.exports = function (model) {
     res.render(res.locals.template);
   });
 
-  lib.loader(__dirname, app);
+  lib.loader(__dirname, app, model);
 };
