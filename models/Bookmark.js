@@ -3,6 +3,8 @@
  * models/Bookmark.js
  */
 
+var lib = require("../libs");
+
 module.exports = function (mongoose) {
   var BookmarkSchema = new mongoose.Schema({
     // パーマリンク用
@@ -14,17 +16,32 @@ module.exports = function (mongoose) {
     // ブックマークのタイトル
     title: {
       type: String,
-      required: true
+      required: true,
+      validate: [function (value) {
+        var valid = new lib.Validator();
+        valid.check(value).notEmpty();
+        valid.getErrors().length === 0;
+      }, "不正な title です"]
     },
     // ブックマーク先の URL
     url: {
       type: String,
-      required: true
+      required: true,
+      validate: [function (value) {
+        var valid = new lib.Validator();
+        valid.check(value).isUrl();
+        return valid.getErrors().length === 0;
+      }, "不正な URL です"]
     },
     // 元画像の URL
     imageUrl: {
       type: String,
-      required: true
+      required: true,
+      validate: [function (value) {
+        var valid = new lib.Validator();
+        valid.check(value).isUrl();
+        return valid.getErrors().length === 0;
+      }, "不正な URL です"]
     },
     // ブックマークのタグ
     tags: [{
@@ -39,6 +56,7 @@ module.exports = function (mongoose) {
     // 作成日時
     timestamp: {
       type: Date,
+      default: Date.now,
       required: true
     }
   });

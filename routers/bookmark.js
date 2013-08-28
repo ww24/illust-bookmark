@@ -28,18 +28,22 @@ module.exports = function (app, model) {
     });
   });
 
+  // Bookmark 単体
   app.get("/bookmark/:mark_id", function (req, res) {
     res.locals({
       template: "bookmark/single",
       title: "タイトル - "
     });
 
-    model.Bookmark.find({
+    model.Bookmark.findOne({
       id: req.params.mark_id
     })
     .populate("tags")
     .populate("comments")
     .exec(function (err, bookmark) {
+      Object.defineProperty(bookmark, "timestamp", {
+        value: lib.formatDate(bookmark.timestamp)
+      });
       res.locals.bookmark = bookmark;
 
       // xhr なら JSON, そうでなければ HTML を返す
@@ -62,15 +66,6 @@ module.exports = function (app, model) {
       imageUrl: req.body.imageUrl
     };
 
-    var valid = new lib.Validator();
-    valid.check(params.title).notEmpty();
-    if (params.url !== "")
-      valid.check(params.url).isUrl();
-    valid.check(params.imageUrl).isUrl();
-    var errors = valid.getErrors();
-    if (errors.length > 0)
-      return res.json(400, errors);
-
     params.url = params.url || url.parse(params.imageUrl).hostname;
 
     // generate bookmark id
@@ -87,12 +82,17 @@ module.exports = function (app, model) {
         id: tagid,
         title: params.title,
         url: params.url,
-        imageUrl: params.imageUrl,
-        timestamp: new Date()
+        imageUrl: params.imageUrl
       });
 
       bookmark.save(function (err) {
         if (err) {
+          if (err.name === "ValidationError")
+            return res.json(400, {
+              message: "Validation Error",
+              errors: err.errors
+            });
+
           res.json(500, {
             message: "DB Error",
             error: err
@@ -108,7 +108,36 @@ module.exports = function (app, model) {
 
   // Bookmark 編集
   app.post("/bookmark/:mark_id", function (req, res) {
+    // check XHR
+    if (! req.xhr)
+      return res.send(403);
 
+    var params = {
+      title: req.body.title,
+      url: req.body.url,
+      imageUrl: req.body.imageUrl
+    };
+
+    var valid = new lib.Validator();
+    valid.check(params.title).notEmpty();
+    valid.check(params.url).isUrl();
+    valid.check(params.imageUrl).isUrl();
+    var errors = valid.getErrors();
+    if (errors.length > 0)
+      return res.json(400, errors);
+
+    model.Bookmark.findOne({
+      id: req.params.mark_id
+    }, function (err, bookmark) {
+      if (err) {
+        res.json(500, {
+          message: "DB Error",
+          error: err
+        });
+      }
+
+      res.send(200);
+    });
   });
 
   // Bookmark 削除
