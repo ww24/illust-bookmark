@@ -5,6 +5,10 @@ Illust Bookmark (仮)
 
 Get Started
 -----------
-`npm install`
-
+### Express 起動  
+`npm install`  
 `node start`
+
+### Nginx 起動
+(`nginx -s stop`)  
+`nginx`

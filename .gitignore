@@ -13,4 +13,9 @@ db/*
 !db/README.md
 
 # Bower
-static/bower
+static/bower/*
+!static/bower/README.md
+
+# Cache
+static/illust/*
+!static/illust/README.md
