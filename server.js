@@ -38,6 +38,7 @@ exports.runServer = function (mode) {
     app.engine("html", hogan);
     app.set("partials", {
       menu   : "partials/menu",
+      modal  : "partials/modal",
       header : "partials/header",
       footer : "partials/footer"
     });

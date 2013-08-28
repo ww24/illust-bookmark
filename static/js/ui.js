@@ -1,11 +1,11 @@
 $(function() {
-  var $addBookmarkForm, $addBookmarkSubmit;
+  var $addBookmarkForm, $addBookmarkSubmit, $bookmarkStatus, $removeBookmark;
   $addBookmarkForm = $("#add-bookmark-modal").find("form");
   $addBookmarkSubmit = $("add-bookmark-submit");
-  return $addBookmarkForm.submit(function(e) {
+  $addBookmarkForm.submit(function(e) {
     e.preventDefault();
     $addBookmarkSubmit.button("loading");
-    $.ajax({
+    return $.ajax({
       method: "put",
       url: "/bookmark",
       headers: {
@@ -17,7 +17,27 @@ $(function() {
     }).fail(function(ajax) {
       return console.log(ajax.responseJSON);
     });
-    return console.log($(this).serialize());
+  });
+  $removeBookmark = $("#remove-bookmark");
+  $removeBookmark.click(function() {
+    $(this).button("loading");
+    return $.ajax({
+      method: "delete",
+      url: "/bookmark/" + bookmark_id,
+      headers: {
+        "X-CSRF-Token": csrf_token
+      }
+    }).done(function(data) {
+      return console.log(data);
+    }).fail(function(ajax) {
+      return console.log(ajax.responseJSON);
+    });
+  });
+  $bookmarkStatus = $("#bookmark-status");
+  return $bookmarkStatus.hover(function() {
+    return $(this).removeClass("btn-info").addClass("btn-danger").text("リムーブ");
+  }, function() {
+    return $(this).removeClass("btn-danger").addClass("btn-info").text("フォロー中");
   });
 });
 

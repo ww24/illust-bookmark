@@ -6,13 +6,16 @@
       {{#bookmark}}
       <section class="col-sm-4">
         <a href="{{imageUrl}}" class="thumbnail">
-          <img src="{{imageUrl}}" alt="thumbsnail">
+          <img src="/illust/{{id}}{{ext}}" alt="thumbsnail">
         </a>
       </section>
       <section class="col-sm-8">
         <h2>{{title}}</h2>
         <div class="panel panel-default">
-          <div class="panel-heading">Metadata</div>
+          <div class="panel-heading">
+            Metadata
+            <button type="button" id="bookmark-status" data-toggle="modal" href="#remove-bookmark-modal" class="btn btn-info btn-sm bookmark-status">フォロー中</button>
+          </div>
           <div class="panel-body">
             <dl class="dl-horizontal">
               <dt>掲載元 URL:</dt>
