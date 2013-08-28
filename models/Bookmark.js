@@ -13,6 +13,16 @@ module.exports = function (mongoose) {
       index: {unique: true},
       required: true
     },
+    // 拡張子
+    ext: {
+      type: String,
+      required: true,
+      validate: [function (value) {
+        var valid = new lib.Validator();
+        valid.check(value).regex(/^\.(jpg|png|gif)$/);
+        return valid.getErrors().length === 0;
+      }, "不正な拡張子です"]
+    },
     // ブックマークのタイトル
     title: {
       type: String,

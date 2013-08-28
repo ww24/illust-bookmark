@@ -4,6 +4,7 @@
  */
 
 var url = require("url"),
+    fs = require("fs"),
     lib = require("../libs");
 
 module.exports = function (app, model) {
@@ -80,6 +81,7 @@ module.exports = function (app, model) {
       // create Bookmark
       var bookmark = new model.Bookmark({
         id: tagid,
+        ext: ".jpg",
         title: params.title,
         url: params.url,
         imageUrl: params.imageUrl
@@ -93,14 +95,50 @@ module.exports = function (app, model) {
               errors: err.errors
             });
 
-          res.json(500, {
+          return res.json(500, {
             message: "DB Error",
             error: err
           });
         }
 
-        res.json({
-          bookmark_id: tagid
+        // get cache
+        lib.cache({
+          filename: tagid,
+          referer: params.url,
+          imageUrl: params.imageUrl 
+        }, function (err, file_path, ext) {
+          if (err) {
+            // 後片付け
+            // Bookmark 削除
+            bookmark.remove();
+            bookmark.save(function (err) {
+              if (err)
+                console.log(err);
+            });
+
+            // Cache 削除
+            fs.unlink(file_path);
+
+            return res.json(500, {
+              message: "cache error",
+              errors: [err]
+            });
+          }
+
+          // update ext
+          bookmark.set("ext", ext);
+          bookmark.save(function (err) {
+            if (err) {
+              return res.json(500, {
+                message: "DB Error",
+                error: err
+              });
+            }
+
+            res.json({
+              bookmark_id: tagid
+            });
+          });
         });
       });
     });
@@ -118,19 +156,17 @@ module.exports = function (app, model) {
       imageUrl: req.body.imageUrl
     };
 
-    var valid = new lib.Validator();
-    valid.check(params.title).notEmpty();
-    valid.check(params.url).isUrl();
-    valid.check(params.imageUrl).isUrl();
-    var errors = valid.getErrors();
-    if (errors.length > 0)
-      return res.json(400, errors);
-
     model.Bookmark.findOne({
       id: req.params.mark_id
     }, function (err, bookmark) {
       if (err) {
-        res.json(500, {
+        if (err.name === "ValidationError")
+          return res.json(400, {
+            message: "Validation Error",
+            errors: err.errors
+          });
+
+        return res.json(500, {
           message: "DB Error",
           error: err
         });
@@ -142,6 +178,10 @@ module.exports = function (app, model) {
 
   // Bookmark 削除
   app.delete("/bookmark/:mark_id", function (req, res) {
+    // check XHR
+    if (! req.xhr)
+      return res.send(403);
+
 
   });
 };

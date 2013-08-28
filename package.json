@@ -7,7 +7,9 @@
     "mongoose": "~3.6.18",
     "colors": "~0.6.2",
     "validator": "~1.5.0",
-    "bower": "~1.2.3"
+    "bower": "~1.2.3",
+    "mime-magic": "~5.14.0",
+    "request": "~2.27.0"
   },
   "devDependencies": {
     "grunt-contrib-coffee": "~0.7.0",
