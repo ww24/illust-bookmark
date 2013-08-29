@@ -24,33 +24,57 @@ module.exports = function (app, model) {
         last:  profile.name.familyName
       },
       screen_name: profile.name.givenName + " " + profile.name.familyName,
-      email: profile.emails[0].value
+      email: profile.emails[0].value,
+      bookmarks: []
     };
 
     console.log(user);
-    model.User.findOne({
-      google: {
-        email: user.email
-      }
-    }, function (err, userData) {
-      if (user) {
-        user = user;
-        return done(null, user);
+    model.Google.findOne({
+      email: user.email
+    }, function (err, google) {
+      if (err) {
+        console.log(err);
       }
 
-      userData = new model.User({
-        google: {
-          email: user.email,
-          name: user.name
-        }
-      });
-      userData.save(function (err) {
+      model.User.findOne({
+        google: google
+      }).populate("twitter")
+      .populate("google")
+      .populate("bookmarks")
+      .exec(function (err, userData) {
         if (err) {
           console.log(err);
-          return done(err, null);
+          return done(err, userData);
         }
 
-        done(null, user);
+        if (userData) {
+          console.log("signin");
+          user.bookmarks = userData.bookmarks;
+          return done(null, user);
+        }
+
+        console.log("signup");
+        google = new model.Google({
+          email: user.email,
+          name: user.name
+        });
+        google.save(function (err) {
+          if (err) {
+            console.log(err);
+          }
+
+          userData = new model.User({
+            google: google
+          });
+          userData.save(function (err) {
+            if (err) {
+              console.log(err);
+              return done(err, null);
+            }
+
+            done(null, user);
+          });
+        })
       });
     });
   }));

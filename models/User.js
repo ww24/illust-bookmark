@@ -15,10 +15,10 @@ module.exports = function (mongoose) {
       ref: "Google"
     },
     // Bookmark 一覧
-    bookmarks: {
+    bookmarks: [{
       type: mongoose.Schema.ObjectId,
       ref: "Bookmark"
-    }
+    }]
   });
 
   return mongoose.model("User", UserSchema);

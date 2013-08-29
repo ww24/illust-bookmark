@@ -42,6 +42,9 @@ module.exports = function (app, model) {
     .populate("tags")
     .populate("comments")
     .exec(function (err, bookmark) {
+      if (! bookmark)
+        return res.send(404);
+
       Object.defineProperty(bookmark, "timestamp", {
         value: lib.formatDate(bookmark.timestamp)
       });
@@ -135,8 +138,43 @@ module.exports = function (app, model) {
               });
             }
 
-            res.json({
-              bookmark_id: tagid
+            // save bookmark list
+            model.Google.findOne({
+              email: req.user.email
+            }, function (err, google) {
+              if (err) {
+                return res.json(500, {
+                  message: "DB Error",
+                  error: err
+                });
+              }
+
+              model.User.findOne({
+                google: google
+              }).populate("bookmarks")
+              .exec(function (err, user) {
+                if (err || ! user) {
+                  return res.json(500, {
+                    message: "DB Error",
+                    error: err
+                  });
+                }
+
+                user.bookmarks.push(bookmark);
+                user.save(function (err) {
+                  if (err) {
+                    return res.json(500, {
+                      message: "DB Error",
+                      error: err
+                    });
+                  }
+
+                  req.user.bookmarks.push(bookmark);
+                  res.json({
+                    bookmark_id: tagid
+                  });
+                });
+              });
             });
           });
         });
