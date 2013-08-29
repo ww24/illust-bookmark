@@ -9,7 +9,11 @@
     "validator": "~1.5.0",
     "bower": "~1.2.3",
     "mime-magic": "~5.14.0",
-    "request": "~2.27.0"
+    "request": "~2.27.0",
+    "passport": "~0.1.17",
+    "passport-google": "~0.3.0",
+    "passport-twitter": "~1.0.0",
+    "connect-flash": "~0.1.1"
   },
   "devDependencies": {
     "grunt-contrib-coffee": "~0.7.0",

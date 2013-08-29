@@ -1,0 +1,20 @@
+{{> header}}
+
+  <!-- content -->
+  <div class="container">
+    {{#user}}
+    <div class="page-header">
+      <div class="row">
+        <div class="col-xs-4 col-sm-2">
+          <img src="{{gravatar}}" class="thumbnail">
+        </div>
+        <div class="col-xs-8 col-sm-10">
+          <h3>{{screen_name}}</h3>
+        </div>
+      </div>
+    </div>
+    {{> bookmarks}}
+    {{/user}}
+  </div>
+
+{{> footer}}

@@ -9,27 +9,39 @@
 </div>
 <div class="navbar-collapse collapse">
   <ul class="nav navbar-nav">
-    <li class="{{#menu}}home{{/menu}}">
-      <a href="/home">ホーム</a>
-    </li>
     <li class="{{#menu}}bookmark{{/menu}}">
       <a href="/bookmark">ブックマーク</a>
     </li>
-    <li class="{{#menu}}group{{/menu}}">
-      <a href="/group">まとめ</a>
+    <li class="{{#menu}}collection{{/menu}}">
+      <a href="/collection">コレクション</a>
     </li>
   </ul>
+  {{#isLoggedIn}}
   <ul class="nav navbar-nav navbar-right">
+    <li class="{{#menu}}home{{/menu}}">
+      <a href="/home">
+        <span class="glyphicon glyphicon-home"></span> Home
+      </a>
+    </li>
     <li class="{{#menu}}add{{/menu}}">
       <a data-toggle="modal" href="#add-bookmark-modal">
         <span class="glyphicon glyphicon-plus"></span> Add
       </a>
     </li>
+    <li class="{{#menu}}logout{{/menu}}">
+      <a href="/logout">
+        <span class="glyphicon glyphicon-off"></span>
+        Logout
+      </a>
+    </li>
+    <!--
     <li class="{{#menu}}settings{{/menu}}">
       <a href="/settings">
         <span class="glyphicon glyphicon-wrench"></span>
         Settings
       </a>
     </li>
+    -->
   </ul>
+  {{/isLoggedIn}}
 </div>

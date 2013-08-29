@@ -12,11 +12,11 @@ module.exports = function (mongoose) {
       required: true
     },
     // OAuth Token
-    oauth_token: {
+    oauth_access_token: {
       type: String
     },
     // OAuth Token Secret
-    oauth_token_secret: {
+    oauth_access_token_secret: {
       type: String
     }
   });
