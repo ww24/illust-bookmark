@@ -1,6 +1,19 @@
 # ui.coffee
 
 $ ->
+  # Click Use Button
+  $useButton = $ "#use-button"
+  $usingGuide = $ "#using-guide"
+
+  $useButton.click ->
+    $usingGuide.animate
+      height: "500px"
+    , 500 , ->
+      $(this).height "auto"
+
+    $(this).hide()
+
+
   # Add Bookmark Form
   $addBookmarkForm = $("#add-bookmark-modal").find "form"
   $addBookmarkSubmit = $ "add-bookmark-submit"
@@ -38,6 +51,7 @@ $ ->
     .fail (ajax) ->
       console.log ajax.responseJSON
 
+
   # Bookmark Status Button
   $bookmarkStatus = $ "#bookmark-status"
 
@@ -52,3 +66,10 @@ $ ->
       .addClass("btn-info")
       .text("フォロー中")
 
+
+  # Social Button
+  $socialButton = $ "#social-button"
+
+  $socialButton.delay(2000).animate
+    opacity: 1
+  , 500
