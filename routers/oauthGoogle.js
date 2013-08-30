@@ -49,7 +49,6 @@ module.exports = function (app, model) {
 
         if (userData) {
           console.log("signin");
-          user.bookmarks = userData.bookmarks;
           return done(null, user);
         }
 

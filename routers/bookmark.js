@@ -169,7 +169,6 @@ module.exports = function (app, model) {
                     });
                   }
 
-                  req.user.bookmarks.push(bookmark);
                   res.json({
                     bookmark_id: tagid
                   });
